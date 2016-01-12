@@ -1,0 +1,13 @@
+table{
+    border-style: solid;
+    border-color: grey;
+    background-color: light-purple;
+}
+td{
+    border-style: solid;
+    border-color: purple;
+}
+th{
+    border-style: solid;
+    border-color: gold;
+}

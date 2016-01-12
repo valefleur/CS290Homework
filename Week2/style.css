@@ -1,0 +1,15 @@
+table{
+    border-style: double;
+    border-color: darkslategray;
+}
+
+th{
+    text-emphasis: bold;
+    border-style: solid;
+    background-color: darkgoldenrod;
+}
+
+td{
+    border-style: solid;
+    border-color: maroon;
+}
