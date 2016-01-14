@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+    Adina Edwards
+    17th Jan. 2016
+    CS 290
+
+    Worked with and got help from Chavis Sabin.
+    -->
     <meta charset="utf-8">
     <title>title</title>
+      <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
       <h1>CS 290 HW Week 2</h1>
-      <!-- TODO: 6x6 table --><section>
+      <!-- add data; 6x6 table --><section>
       <h2>Table</h2>
       <table>
-          <caption>Caption</caption>
+          <caption>Dummy Data for Now</caption>
           <thead>
               <tr>
-                  <th>R1C1</th>
+                  <th></th>
                   <th>R1C2</th>
                   <th>R1C3</th>
                   <th>R1C4</th>
@@ -22,7 +30,7 @@
           </thead>
           <tbody>
               <tr>
-                  <th>R2C1</th>
+                  <td><i>R2C1</i></td>
                   <td>R2C2</td>
                   <td>R2C3</td>
                   <td>R2C4</td>
@@ -30,7 +38,7 @@
                   <td>R2C6</td>
               </tr>
               <tr>
-                  <th>R3C1</th>
+                  <td><i>R3C1</i></td>
                   <td>R3C2</td>
                   <td>R3C3</td>
                   <td>R3C4</td>
@@ -38,7 +46,7 @@
                   <td>R3C6</td>
               </tr>
               <tr>
-                  <th>R4C1</th>
+                  <td><i>R4C1</i></td>
                   <td>R4C2</td>
                   <td>R4C3</td>
                   <td>R4C4</td>
@@ -46,7 +54,7 @@
                   <td>R4C6</td>
               </tr>
               <tr>
-                  <th>R5C1</th>
+                  <td><i>R5C1</i></td>
                   <td>R5C2</td>
                   <td>R5C3</td>
                   <td>R5C4</td>
@@ -54,7 +62,7 @@
                   <td>R5C6</td>
               </tr>
               <tr>
-                  <th>R6C1</th>
+                  <td><i>R6C1</i></td>
                   <td>R6C2</td>
                   <td>R6C3</td>
                   <td>R6C4</td>
@@ -62,10 +70,14 @@
                   <td>R6C6</td>
               </tr>              
           </tbody>
+          <tfoot>
+              <td colspan="2">Footer1</td>
+              <td colspan="4">Footer2</td>
+          </tfoot>
       </table>
       </section>
       <!-- list of at least 3 items --><section>
-      <h2>List</h2>
+      <h2>List of Possible Living Situations</h2>
       <ul>
           <li><b>Rent</b>
           <br>Yeesh, the rent is getting high.</li>
@@ -75,10 +87,17 @@
           <br>This is a last option.  If the money runs out, it's either this or go off grid.</li>
       </ul>
       </section>
-      <!-- TODO: div w/ class 'outer-content' --><section>
+      <!-- div w/ class 'outer-content' --><section>
       <h2>Div with colors</h2>
-      </section>
-      <!-- GET & POST Forms --><section>
+      <div class="outer-content">
+          <br>
+          <div class="inner-content">
+              <p>Do you like the box shadows?</p>
+          </div>
+          <br>
+      </div>
+              </section>
+      <!-- GET & POST Forms --><section id="forms">
       <h2>GET & POST Forms</h2>
       <!-- GET Form -->
       <form action="http://classes.engr.oregonstate.edu/eecs/winter2015/cs290-400/tools/class-content/form_tests/check_request.php" method="get">
@@ -89,11 +108,11 @@
                   <input type="text" name="text_input" size="30">
               </label>
               <p>
-              <label>Numerical Input:***
+              <label>Numerical Input:
                   <input type="number" name="numerical_input" max="100">
               </label>
               </p><p>
-              <label>Password Input:***
+              <label>Password Input:
                   <input type="password" name="password_input">
               </label>
               </p><p>
@@ -120,11 +139,11 @@
                   <input type="text" name="text_input" size="30">
               </label>
               <p>
-              <label>Numerical Input:***
+              <label>Numerical Input:
                   <input type="number" name="numerical_input" max="100">
               </label>
               </p><p>
-              <label>Password Input:***
+              <label>Password Input:
                   <input type="password" name="password_input">
               </label>
               </p><p>
@@ -141,6 +160,6 @@
           </fieldset>
           </fieldset>
       </form>
-      </section>
+                </section>
   </body>
 </html>

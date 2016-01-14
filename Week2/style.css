@@ -1,3 +1,10 @@
+/*
+Adina Edwards
+17th Jan. 2016
+CS 290
+
+Worked with and got help from Chavis Sabin.
+*/
 table{
     border-style: double;
     border-color: darkslategray;
@@ -12,4 +19,30 @@ th{
 td{
     border-style: solid;
     border-color: maroon;
+}
+tbody tr:nth-of-type(2n+1){
+    background-color: aqua;
+}
+.outer-content{
+    top: 20px; /*20px removed from prev element*/
+    position: relative;
+    margin-left: 0;
+    width: 75%; /*takes up 3/4 of page*/ 
+    height: 5em;
+    background-color: pink;
+    box-shadow: 5px 10px magenta;
+}
+
+.inner-content{
+    background-color: lightskyblue;
+    width: 75%;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    box-shadow: -3px -4px lightgray;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+#forms{
+    padding: 20px 0px 10px;
 }
