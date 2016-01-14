@@ -12,7 +12,7 @@ table{
 
 th{
     text-emphasis: bold;
-    border-style: solid;
+    border-style: double;
     background-color: darkgoldenrod;
 }
 
@@ -20,9 +20,16 @@ td{
     border-style: solid;
     border-color: maroon;
 }
+
 tbody tr:nth-of-type(2n+1){
-    background-color: aqua;
+    background-color: palevioletred;
 }
+
+tbody tr:nth-of-type(2n){
+    background-color: lavender;
+    color: palevioletred;
+}
+
 .outer-content{
     top: 20px; /*20px removed from prev element*/
     position: relative;
