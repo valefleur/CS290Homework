@@ -13,7 +13,7 @@ table{
 th{
     text-emphasis: bold;
     border-style: double;
-    background-color: darkgoldenrod;
+    background-color: rgba(226, 163, 9, 0.83);
 }
 
 td{
