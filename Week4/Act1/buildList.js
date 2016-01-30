@@ -1,13 +1,14 @@
+/*
+Adina Edwards
+31st January 2016
+CS290 Week4 Act1
+*/
 function buildList(list) {
     var result = [];
     var i;
     for (i = 0; i < list.length; i++) {
         var item = 'item' + list[i];
         result.push(pushedAlert(item, list[i]));
-        /*
-        0: itemlist[0]  alert(itemlist[0] list[0])
-        1: itemlist[1]
-        */
     }
     return result;
 }

@@ -22,12 +22,35 @@ var automobiles = [
     new Automobile(2008, "Subaru", "Outback", "Wagon")
     ];
 
+var weightType = function ( car ){
+    if ( car.type.toLowerCase() == "roadster" ) { return 4; }
+    else if ( car.type.toLowerCase() == "pickup") { return 3; }
+    else if ( car.type.toLowerCase() == "suv") { return 2; }
+    else if ( car.type.toLowerCase() == "wagon" ) { return 1; }
+    else { return 0; }
+} // TODO: Is this a clousure?!  If so, I should declare it outside this function and then just call it in typeComparator( auto1, auto2 ); Darn, I think it is one...
+
+//   console.log("DEBUG:  " + );
+
 /*This function sorts arrays using an arbitrary comparator. (This means use a higher-order function where an arbitrary comparator is compared to a specific variable.  Have this function return a function where the specific variable is compared to an input argument.  Hmm, maybe not here, but probably somewhere.) You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr(comparator, array) {
     /*your code here*/
+    var copiedArray = array;
     var sortedArray = [];
-    var element, currentGreatest;
-    for (i; i < array.length; i + 1) {
+    var j, i, currentGreatest, index = null;
+    for (i = 0; i < array.length; i++) {
+        console.log("DEBUG: sortArr outer loop at i is: " + i);
+        for (j = 0; j < copiedArray.length; j++) {
+            if (comparator(currentGreatest, array[j]) == false) {
+                currentGreatest = array[j];
+                index = j;
+            }
+        }
+        console.log("DEBUG: currentGreatest is: " + currentGreatest);
+        sortedArray.push(currentGreatest);
+        copiedArray.slice(j, j+1);
+    }
+/*    for (i = 0; i < array.length; i + 1) {
         for (element; element < array.length; element + 1) {
             if (!comparator(currentGreatest, array[element])) {
                 currentGreatest = array[element];
@@ -37,16 +60,15 @@ function sortArr(comparator, array) {
         if (array[i] === currentGreatest){
             sortedArray.push(currentGreatest);
             //TODO: try to remove array[currentGreatest]
+            //no, don't remove because then I can't compare other values the next time; could make a copy first
         }
     }
+    */
     //sortedArray.push(currentGreatest);
 /*    var compare = function (car1, car2){
         if (compare(array[i], array[i+1])) { 
             sortedArray.push[array[i].pop]; //is this wrong syntax?
             }*/
-}
-    
-    
     return sortedArray;
 }
 
@@ -64,39 +86,54 @@ function exComparator(int1, int2) {
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
 function yearComparator(auto1, auto2) { //TODO: if auto1 is null, return false
     /* your code here*/
-    if (auto1.year > auto2.year) { return true; }
+    if (auto1 == null) { return false; }
+    else if (auto1.year > auto2.year) { return true; }
     else { return false; }
 }
 
 /*This compares two automobiles based on their make. It should be case insensitive and makes which are alphabetically earlier in the alphabet are "greater" than ones that come later.*/
 function makeComparator( auto1, auto2 ){
     /* your code here*/
-    if ( auto1.make.toLowerCase > auto2.make.toLowerCase) { return true; }
+    if (auto1 == null) { return false; }
+    else if ( auto1.make.toLowerCase > auto2.make.toLowerCase) { return true; }
     else { return false; }
 }
 
 /*This compares two automobiles based on their type. The ordering from "greatest" to "least" is as follows: roadster, pickup, suv, wagon, (types not otherwise listed). It should be case insensitive. If two cars are of equal type then the newest one by model year should be considered "greater". (This last part means call yearComparator(tied1, tied2).)*/
 function typeComparator( auto1, auto2 ){
     /* your code here*/
-    var weightType = function ( car ){
-        if ( car.type.toLowerCase == "roadster" ) { return 4; }
-        else if ( car.type.toLowerCase == "pickup") { return 3; }
-        else if ( car.type.toLowerCase == "suv") { return 2; }
-        else if ( car.type.toLowerCase == "wagon" ) { return 1; }
-        else { return 0; }
-    } // TODO: Is this a clousure?!  If so, I should declare it outside this function and then just call it in typeComparator( auto1, auto2 ); Darn, I think it is one...
-    if ( auto1.type.toLowerCase == auto2.type.toLowerCase ) { return yearComparator(auto1, auto2); }
-    else if ( weightType(auto1) > weightType(auto2) ) { return true; }
-    else { return false; }
+    if (auto1 == false) { return false; }
+    else if ( auto1.type.toLowerCase() == auto2.type.toLowerCase() ) { 
+        console.log("typeComparator says same type: " + auto1.type.toLowerCase() + " and " + auto2.type.toLowerCase());
+        return yearComparator(auto1, auto2); 
+    }
+    else if ( weightType(auto1) > weightType(auto2) ) { 
+        console.log("typeComparator says type1 is " + auto1.type + " with weight " + weightType(auto1));
+        console.log("     type2 is " + auto2.type + " with weight " + weightType(auto2));
+        return true; 
+    }
+    else { 
+        console.log("typeComparator says type2 is greater: " + auto2.type);
+        return false; 
+    }
 }
 
 /* my "main" function */
+console.log("DEBUG!!!");
+automobiles[0].logMe(false);
+console.log(automobiles[1].type + " is a better than a " + automobiles[2].type + ": " + typeComparator(automobiles[1], automobiles[2]));
 
+console.log("DEBUG!!!");
+/* focus on one for now
 console.log("*****");
 console.log("The cars sorted by year are: ");
 //sort by year
 var sortedByYear = sortArr(yearComparator, automobiles);
-sortedByYear.logMe(false);
+//sortedByYear.logMe(false);
+for (var i = 0; i < sortedByYear.length; i++) {
+    console.log("DEBUG: sortedByYear is: " + sortedByYear[i]);
+    sortedByYear[i].logMe(false);
+}
 
 console.log(" ");
 console.log("The cars sorted by make are: ");
@@ -105,10 +142,10 @@ var sortedByMake = sortArr(makeComparator, automobiles);
 sortedByMake.logMe(false);
 
 console.log(" ");
-console.log("The cars sorted by type are: "):
+console.log("The cars sorted by type are: ");
 var sortedByType = sortArr(typeComparator, automobiles);
 sortedByType.logMe(true);
-console.log("*****");
+console.log("*****");*/
 
 /*Your program should output the following to the console.log, including the opening and closing 5 stars. All values in parenthesis should be replaced with appropriate values. Each line is a seperate call to console.log.
 
