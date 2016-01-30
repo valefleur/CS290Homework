@@ -26,12 +26,20 @@ var automobiles = [
 function sortArr(comparator, array) {
     /*your code here*/
     var sortedArray = new Array();
-    var element = 0;
-    for (element; element < array.length; element + 1) {
-        if (comparator(array[element], array[element + 1])) {
-            sortedArray.push(array[element]);
+    var element, currentGreatest;
+    for (i; i < array.length; i + 1) {
+        for (element; element < array.length; element + 1) {
+            if (!comparator(currentGreatest, array[element])) {
+                currentGreatest = array[element];
+            }
+            
+        }
+        if (array[i] === currentGreatest){
+            sortedArray.push(currentGreatest);
+            //TODO: try to remove array[currentGreatest]
         }
     }
+    //sortedArray.push(currentGreatest);
 /*    var compare = function (car1, car2){
         if (compare(array[i], array[i+1])) { 
             sortedArray.push[array[i].pop]; //is this wrong syntax?
@@ -54,7 +62,7 @@ function exComparator(int1, int2) {
 /*For all comparators if cars are 'tied' according to the comparison rules then the order of those 'tied' cars is not specified and either can come first*/
 
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
-function yearComparator(auto1, auto2) {
+function yearComparator(auto1, auto2) { //TODO: if auto1 is null, return false
     /* your code here*/
     if (auto1.year > auto2.year) { return true; }
     else { return false; }
