@@ -25,7 +25,7 @@ var automobiles = [
 /*This function sorts arrays using an arbitrary comparator. (This means use a higher-order function where an arbitrary comparator is compared to a specific variable.  Have this function return a function where the specific variable is compared to an input argument.  Hmm, maybe not here, but probably somewhere.) You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr(comparator, array) {
     /*your code here*/
-    var sortedArray = new Array();
+    var sortedArray = [];
     var element, currentGreatest;
     for (i; i < array.length; i + 1) {
         for (element; element < array.length; element + 1) {
