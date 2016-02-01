@@ -28,9 +28,7 @@ var weightType = function ( car ){
     else if ( car.type.toLowerCase() == "suv") { return 2; }
     else if ( car.type.toLowerCase() == "wagon" ) { return 1; }
     else { return 0; }
-} // TODO: Is this a clousure?!  If so, I should declare it outside this function and then just call it in typeComparator( auto1, auto2 ); Darn, I think it is one...
-
-//   console.log("DEBUG:  " + );
+}
 
 /*This function sorts arrays using an arbitrary comparator. (This means use a higher-order function where an arbitrary comparator is compared to a specific variable.  Have this function return a function where the specific variable is compared to an input argument.  Hmm, maybe not here, but probably somewhere.) You pass it a comparator and an array of objects appropriate for that comparator and it will return a new array which is sorted with the largest object in index 0 and the smallest in the last index*/
 function sortArr(comparator, array) {
@@ -56,63 +54,9 @@ function sortArr(comparator, array) {
         tempArray.splice(index, 1);
         //console.log("j(" + j + ") loop: currentGreatest " + sortedArray[j].year);
     }
-/*    if(sortedArray.length == aLength){
-        console.log("sortedArray is the correct length");
-    }
-    else { console.log("sortedArray is the WRONG length"); }*/
-    
-/*    var aLength = array.length;
-    var copiedArray = array;
-    var sortedArray = [];
-    var j, i, currentGreatest, index = null;
-    var k = 0;
-    for (i = 0; i < array.length; i++) {
-        console.log("DEBUG: sortArr outer loop at i is: " + i);
-        currentGreatest, index = findCurrentGreatest(comparator, copiedArray);
-        sortedArray[k] = currentGreatest; //add greatest to sortedArray
-        k++;
-        console.log("DEBUG: sortArr outer loop sortedArray[k] is: " + sortedArray[k] + " " + k);
-        copiedArray = array.slice(0, index - 1) + array.slice(index, aLength);
-        aLength = copiedArray.length;
-        console.log("DEBUG: sortArr outer loop copiedArray.length is: " + copiedArray.length);
-        }*/
-/*    for (i = 0; i < array.length; i + 1) {
-        for (element; element < array.length; element + 1) {
-            if (!comparator(currentGreatest, array[element])) {
-                currentGreatest = array[element];
-            }
-            
-        }
-        if (array[i] === currentGreatest){
-            sortedArray.push(currentGreatest);
-            //TODO: try to remove array[currentGreatest]
-            //no, don't remove because then I can't compare other values the next time; could make a copy first
-        }
-    }
-    */
-    //sortedArray.push(currentGreatest);
-/*    var compare = function (car1, car2){
-        if (compare(array[i], array[i+1])) { 
-            sortedArray.push[array[i].pop]; //is this wrong syntax?
-            }*/
     return sortedArray;
 }
 
-function findCurrentGreatest(comparator, array){
-    var currentGreatest = null;
-    var j, indexOfGreatest;
-    for (j = 0; j < array.length; j++) {
-        if (comparator(currentGreatest, array[j]) == false) {
-            currentGreatest = array[j];
-            indexOfGreatest = j;
-            console.log("DEBUG: sortArr inner loop at j is: " + j + ". array[j].make: " + array[j].make);
-        }
-    }
-    console.log("DEBUG: currentGreatest is: " + currentGreatest.make);
-    return currentGreatest, indexOfGreatest;
-    //sortedArray.push(currentGreatest);
-    //copiedArray.slice(j, j+1);
-}
 
 /*A comparator takes two arguments and uses some algorithm to compare them. If the first argument is larger or greater than the 2nd it returns true, otherwise it returns false. Here is an example that works on integers*/
 function exComparator(int1, int2) {
@@ -126,7 +70,7 @@ function exComparator(int1, int2) {
 /*For all comparators if cars are 'tied' according to the comparison rules then the order of those 'tied' cars is not specified and either can come first*/
 
 /*This compares two automobiles based on their year. Newer cars are "greater" than older cars.*/
-function yearComparator(auto1, auto2) { //TODO: if auto1 is null, return false
+function yearComparator(auto1, auto2) {
     /* your code here*/
     if (auto1 == null) { return false; }
     else if (auto1.year > auto2.year) { return true; }
@@ -193,7 +137,6 @@ for( var i = 0; i < sortedByType.length; i++){
 }
 
 console.log("*****");
-/* focus on one for now*/
 
 /*Your program should output the following to the console.log, including the opening and closing 5 stars. All values in parenthesis should be replaced with appropriate values. Each line is a seperate call to console.log.
 
