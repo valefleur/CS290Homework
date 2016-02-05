@@ -2,27 +2,20 @@ function createRow(parent, columns, header){
     // parent is the table node (thead or tbody)
     // columns is the number of cells to add
     // header is a boolean indicating if the cell should be a header or not
-    if(header){
-        var headerRow = parent.insertRow(0);
-        for (var i = 0; i < columns; i++){
-            headerRow.
-        }
-    }
-    var row = parent.createElement("tr");
+    var row = parent.insertRow(-1);
+    //now fill new row with cells
     for (var i = 0; i < columns; i++){
-        if (header) { row.createElement("th"); }
-        else { row.createElement("td"); }
+        var cell;
+        if (header) { cell = document.createElement("TH"); }
+        else { cell = row.createElement("TD"); }
+        cell.innerHTML = "text before adding cell";
+        row.appendChild(cell);
+        console.log("created row i: " + i );
     }
     
 }
 
-var table = document.createElement("table");
-//var table = document.body.firstElementChild;
+var table = document.createElement("TABLE");
+table.border = "2"; //so I can see it
 console.log("Created table");
-var tHeader = table.createTHead();
-//> Uncaught TypeError: table.createElement is not a function
-
-//var node = document.body
-//var tHeader = table.firstChild;
-console.log("Created table head");
-createRow(tHeader, 4, true);
+createRow(table, 4, true);
