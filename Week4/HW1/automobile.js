@@ -1,3 +1,9 @@
+/*
+Adina Edwards
+31st January 2016
+CS290
+Received help with array manipulation from Chavis Sabin.
+*/
 function Automobile(year, make, model, type) {
     this.year = year; //integer (ex. 2001, 1995)
     this.make = make; //string (ex. Honda, Ford)
