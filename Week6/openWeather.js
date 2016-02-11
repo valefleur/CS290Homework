@@ -3,20 +3,31 @@ document.addEventListener("DOMContentLoaded", main);
 function askForWeather(){
     var request = new XMLHttpRequest();
     var URL = "http://api.openweathermap.org/data/2.5/weather?q=";
-    var city = "Corvallis,or";
+    var city = document.getElementById("city_name").value;
+    console.log("City is: " + city);
+    var state = document.getElementById("state_name").value;
+    console.log("State is: " + state);
     var appID = "&appid=fa7d80c48643dfadde2cced1b1be6ca1";
     var sync = false;
-    request.open("GET", URL+city+appID, sync);
-    request.send(null);
-    var result = JSON.parse(request.responseText);
-    console.log(result);
-    document.getElementById("weatherResult").innerHTML = result;
+    if(city && state){
+        request.open("GET", URL+city+appID, sync);
+        request.send(null);
+        var result = JSON.parse(request.responseText);
+        console.log(result);
+        document.getElementById("weatherResult").innerHTML = result;
+    }
+    else{
+        document.getElementById("cityResult").innerHTML = "I need a city and a state to get you the weather!  I'm not as sophisticated as all of those other sites that just take your location as if they know you personally...";
+    }
 }
 
 function main(){
     var submit_city = document.getElementById("submit_city");
     /*This line is broken because "submit_city" is a NAME not an ID.*/
-    submit_city.addEventListener("click", askForWeather);
+    submit_city.addEventListener("click", function(event){
+        event.preventDefault();
+        askForWeather();
+    });
 
     var submit_zip = document.getElementById("submit_zip");
     submit_zip.addEventListener("click", function(event){
