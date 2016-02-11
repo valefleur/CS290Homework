@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>title</title>
+  <!-- <link rel="stylesheet" href="stylesheet.css" type="text/css"> -->
+
+ </head>
+ <body>
+     <form action="" method="get">
+         <fieldset>
+             <legend>OpenWeather Request</legend>
+             <fieldset>
+             <p><label>City:
+                 <input type="text" name="city_name" size="10"></label>
+             <label>and State:
+                 <input type="text" name="state_name" size="2"></label></p>
+                 <p><input type="submit" name="submit_city" id="submit_city"></p>
+                 </fieldset>
+                 <p>OR</p>
+             <fieldset>
+             <p><label>Zip:<input type="text" name="zip_name" size="5">
+                 </label></p>
+                 <p><input type="submit" name="submit_zip" id="submit_zip"></p>
+             </fieldset>
+         </fieldset>
+         <span id="weatherResult">
+             <span id="cityResult"></span>
+             <span id="zipResult"></span>
+         </span>
+     </form>
+       <script src="openWeather.js"></script>
+ </body>
+</html>
