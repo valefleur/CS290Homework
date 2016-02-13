@@ -1,34 +1,62 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <meta charset="UTF-8">
-  <title>title</title>
-  <!-- <link rel="stylesheet" href="stylesheet.css" type="text/css"> -->
-
- </head>
- <body>
-     <form action="" method="get">
-         <fieldset>
-             <legend>OpenWeather Request</legend>
-             <fieldset>
-             <p><label>City:
-                 <input type="text" name="city_name" size="10"></label>
-             <label>and State:
-                 <input type="text" name="state_name" size="2"></label></p>
-                 <p><input type="submit" name="submit_city" id="submit_city"></p>
-                 </fieldset>
-                 <p>OR</p>
-             <fieldset>
-             <p><label>Zip:<input type="text" name="zip_name" size="5">
-                 </label></p>
-                 <p><input type="submit" name="submit_zip" id="submit_zip"></p>
-             </fieldset>
-         </fieldset>
-         <span id="weatherResult">
-             <span id="cityResult"></span>
-             <span id="zipResult"></span>
-         </span>
-     </form>
-       <script src="openWeather.js"></script>
- </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Weather Collector & Another API AJAX Call</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+    </head>
+    <body>
+        <form action="" method="get">
+            <fieldset>
+                <legend>OpenWeather Request</legend>
+                <fieldset>
+                    <p><label>City:
+                    <input type="text" name="city_name" id="city_name" size="10"></label>
+                    <label>and State:
+                    <input type="text" name="state_name" id="state_name" size="2"></label>
+                    </p>
+                    <p>OR</p>
+                    <p><label>Zip:<input type="text" name="zip_name" id="zip_name" size="5"></label></p>
+                    <p>
+                        <label>Select Units:
+                        <br>
+                        <input type="radio" name="units" value="Fahrenheit"/>Fahrenheit
+                        <br>
+                        <input type="radio" name="units" value="Celsius"/>Celsius
+                        <br>
+                        <input type="radio" name="units" value="Kelvins"/>Kelvins
+                        </label>
+                    </p>
+                    <p><input type="submit" name="submit_city" id="submit_city"></p>
+                </fieldset>
+                <!--<p>OR</p>
+                <fieldset>
+                    <p><label>Zip:<input type="text" name="zip_name" id="zip_name" size="5">
+                    </label></p>
+                    <p><input type="submit" name="submit_zip" id="submit_zip"></p>
+                </fieldset>-->
+            </fieldset>
+        </form>
+        <span id="weatherResult">
+            <div id="city"></div>
+            <div id="latitude"></div>
+            <div id="longitude"></div>
+            <div id="main"></div>
+            <div id="description"></div>
+            <div id="temp"></div>
+            <div id="pressure"></div>
+            <div id="humidity"></div>
+            <div id="cloud"></div>
+            <div id="windSpeed"></div>
+            <div id="windDeg"></div>
+            <div id="clouds"></div>
+            <div id="time"></div>
+            <div id="weather"></div>
+        </span>
+        <br>
+        <span id="outerDebug">DEBUG
+            <div  id="debug"></div>
+        </span>
+        <script src="openWeather.js"></script>
+    </body>
 </html>
