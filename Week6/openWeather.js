@@ -1,3 +1,8 @@
+/*
+Adina Edwards
+14th February 2016
+CS290 Week 6 HW, Part I
+*/
 document.addEventListener("DOMContentLoaded", main);
 
 function askForWeather(){

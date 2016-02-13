@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Random POST Form</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+    </head>
+    <body>
+        <form action="http://httpbin.org/post" method="post">
+        <fieldset>
+            <label>Favorite Candy:</label>
+            <input type="radio" name="candy" id="candy" value="Snickers">Snickers
+            <input type="radio" name="candy" id="candy" value="Mr. Goodbar">Mr. Goodbar
+            <input type="radio" name="candy" id="candy" value="Skittles">Skittles
+            <input type="submit" id="submit">
+        </fieldset>
+        </form>
+        <span id="results">
+            <div id="candyChoice"></div>
+        </span>
+        <span>DEBUG
+            <div id="debug"></div>
+        </span>
+        <script src="post.js"></script>
+    </body>
+</html>
