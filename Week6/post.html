@@ -3,22 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <title>Random POST Form</title>
-        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="post.css" type="text/css">
     </head>
     <body>
         <form action="http://httpbin.org/post" method="post">
         <fieldset>
-            <label>Favorite Candy:</label>
-            <input type="radio" name="candy" id="candy" value="Snickers">Snickers
-            <input type="radio" name="candy" id="candy" value="Mr. Goodbar">Mr. Goodbar
-            <input type="radio" name="candy" id="candy" value="Skittles">Skittles
+            <label>Favorite Candy:</label><br>
+            <input type="radio" name="candy" id="candy" value="Snickers">Snickers<br>
+            <input type="radio" name="candy" id="candy" value="Mr. Goodbar">Mr. Goodbar<br>
+            <input type="radio" name="candy" id="candy" value="Skittles">Skittles<br>
+            <label>Favorite Dish:</label>
+            <input type="text" name="dish" id="dish" size="30"><br>
             <input type="submit" id="submit">
         </fieldset>
         </form>
         <span id="results">
             <div id="candyChoice"></div>
+            <div id="dishChoice"></div>
+            <div id="object" class="info"></div>
         </span>
-        <span>DEBUG
+        <span>
             <div id="debug"></div>
         </span>
         <script src="post.js"></script>

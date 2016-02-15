@@ -33,8 +33,8 @@ function askForWeather(){
             unitReadable = " Kelvins";
         }
     }
-    document.getElementById("debug").innerHTML += "<br>Unit is: " + unit;
-    document.getElementById("debug").innerHTML += "<br>UnitReadable is: " + unitReadable;
+    //document.getElementById("debug").innerHTML += "<br>Unit is: " + unit;
+    //document.getElementById("debug").innerHTML += "<br>UnitReadable is: " + unitReadable;
     if(city && state){
         sendString = URL + city + "," + state;
         if(unit){
@@ -54,7 +54,7 @@ function askForWeather(){
         document.getElementById("weatherResult").innerHTML = "I need a city and a state to get you the weather!  Alternatively, I will take a Zip code.  I'm not as sophisticated as all of those other sites that just take your location as if they know you personally...";
         return null;
     }
-    document.getElementById("debug").innerHTML += "<br>sendString is: " + sendString;
+    //document.getElementById("debug").innerHTML += "<br>sendString is: " + sendString;
 
     //create AJAX moment
     var request = new XMLHttpRequest();
