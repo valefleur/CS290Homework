@@ -1,14 +1,3 @@
-.object{
-    height: auto;
-    width: auto;
-    background-color: aquamarine;
-    position: relative;
-}
-
-#info{
-    background-color: beige;
-}
-
 label{
     font-weight: bold;
 }
