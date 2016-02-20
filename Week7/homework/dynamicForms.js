@@ -23,9 +23,9 @@ app.get("/other-page", function(req, res){
 app.get("/get-results", function(req, res){
     var context = {};
     context.type = "GET";
-    var qParameters = "";
+    var qParameters = [];
     for (var p in req.query){
-        qParameters += "The name " + p + " contains the value " + req.query[p] + "<br>";
+        qParameters.push({ "key":p, "value":req.query[p]});
     }
     context.dataList = qParameters;
     console.log(context);
@@ -40,7 +40,7 @@ app.post("/get-results", function(req, res){
     for (var p in req.body){
         qParameters.push({"key":p,"value":req.body[p]});
     }
-    context.postList = qParameters;
+    context.dataList = qParameters;
     console.log(qParameters);
     console.log(req.body);
     //render generic results view, reguardless of GET vs. POST
