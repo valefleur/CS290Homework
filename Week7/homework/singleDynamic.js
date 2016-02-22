@@ -1,3 +1,11 @@
+/*
+Adina Edwards
+21st February 2016
+CS290 Week7
+Help from handlebarsjs.com
+*/
+
+//set up server: node basics, express, handlebars, body-parser
 var express = require("express");
 var app = express();
 var handles = require("express-handlebars").create({defaultLayout: "main"});
@@ -10,18 +18,9 @@ app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 
 app.set("port", 3000);
+var port = app.get("port");
 
-
-// set up Routes
 app.get("/", function(req, res){
-    res.render("home");
-});
-
-app.get("/other-page", function(req, res){
-    res.render("other-page");
-});
-
-app.get("/get-results", function(req, res){
     var context = {};
     context.type = "GET";
     var qParameters = [];
@@ -34,10 +33,12 @@ app.get("/get-results", function(req, res){
     res.render("results", context);
 });
 
-app.post("/get-results", function(req, res){
+app.post("/", function(req, res){
     var context = {};
     context.type = "POST";
     var qParameters = [];
+    
+    console.log("DEBUG: " + req.body);
     for (var p in req.body){
         qParameters.push({"key":p,"value":req.body[p]});
     }
@@ -62,6 +63,6 @@ app.use(function(err, req, res, next){
 
 
 // start Server
-app.listen(app.get("port"), function(){
-  console.log("Express has launched into the Intersphere.  Please view from http://localhost:" + app.get("port") + "; Press Ctrl-C to return home instantly.");
+app.listen(port, function(){
+  console.log("Express has launched into the Intersphere.  Please view from http://localhost:" + port + "; Press Ctrl-C to return home instantly.");
 });

@@ -3,5 +3,7 @@
 <ul>
     {{#each dataList}}
     <li>{{this.key}}: {{this.value}}</li>
+    {{else}}
+    <li>I didn't get any data!  Check the request format.</li>
     {{/each}}
 </ul>
