@@ -9,11 +9,13 @@ app.set("view engine", "handlebars");
 
 //set up Sessions
 var session = require("express-session");
-app.use(session({secret:"MtWoRw"}));
+app.use(session({secret:"MtWoRw", resave:"false", saveUninitialized:"false"}));
+//ERROR: see: https://github.com/expressjs/session/issues/56
+
 
 //set up BodyParser
 var bodyparser = require("body-parser");
-app.use(bodyparser.urlencoded({extend:false}));
+app.use(bodyparser.urlencoded({extended:false}));
 //TODO don't we need another line to parse JSON POST requests?
 
 //set up basic Node stuff
@@ -28,7 +30,7 @@ app.get("/count", function(req, res){
     req.session.count = context.count + 1;
     //could we have used req.session.count++ instead?
     //Or would that mess with the variable because it's live somehow?
-    res.render("counter", context);
+    res.render("count", context);
 });
 
 app.post("/count", function(req, res){
@@ -40,7 +42,7 @@ app.post("/count", function(req, res){
     }
     context.count = req.session.count || 0;
     req.session.count = context.count + 1;
-    res.render("counter", context);
+    res.render("count", context);
 });
 
 //set up Error Routes
@@ -49,7 +51,11 @@ app.use(function(req,res){
     res.render("404");
 });
 
-app.use(function(req,res,next){ //needs another arg
+app.use(function(err,req,res,next){ //needs another arg (I think it's err)
     res.status(500);
     res.render("500");
 })
+
+app.listen(port, function(){
+    console.log("Listening on port " + port + ".  Press Ctrl-C to land.");
+});
