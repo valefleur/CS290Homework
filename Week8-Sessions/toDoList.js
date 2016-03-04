@@ -16,6 +16,7 @@ app.use(session({secret:"MtWoRw", resave:"false", saveUninitialized:"false"}));
 //set up BodyParser
 var bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
 
 //set up Routes
 app.get("/", function(req,res,next){
@@ -78,7 +79,7 @@ app.use(function(req,res){
 app.use(function(err,req,res,next){ //needs another arg (I think it's err)
     res.status(500);
     res.render("500");
-})
+});
 
 app.listen(port, function(){
     console.log("Listening on port " + port + ".  Press Ctrl-C to land.");

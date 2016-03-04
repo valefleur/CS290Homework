@@ -17,6 +17,7 @@ app.use(session({secret:"MtWoRw", resave:"false", saveUninitialized:"false"}));
 var bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended:false}));
 //TODO don't we need another line to parse JSON POST requests?
+app.use(bodyparser.json());
 
 //set up basic Node stuff
 app.set("port", 3001);
