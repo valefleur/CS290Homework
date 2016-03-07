@@ -12,7 +12,7 @@ function makeRequest(){
     var ofArtist = "&name=lady+gaga";
     
     var artist = document.getElementById("artist").value;
-    document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
+    //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
     sendString = url + getArtist + hotttnesss + withkey + ofArtist;
     console.log("**sendString is: " + sendString);
     

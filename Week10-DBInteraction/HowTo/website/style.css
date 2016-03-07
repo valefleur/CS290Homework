@@ -1,0 +1,27 @@
+table{
+    border: 2px;
+    border-style: dashed;
+    border-color: darkblue;
+}
+
+th{
+    text-emphasis: bold;
+    border-style: solid;
+    border: 5px;
+}
+
+td{
+    border: 1px;
+    border-color: gold;
+    border-style: solid;
+}
+
+tbody tr{
+    border: 3px;
+    border-style: solid;
+}
+
+img{
+    max-width: 128px;
+    max-height: 128px;
+}

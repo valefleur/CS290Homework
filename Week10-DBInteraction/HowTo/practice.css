@@ -1,0 +1,32 @@
+table{
+    border: 2px;
+    border-style: dashed;
+    border-color: darkblue;
+}
+
+th{
+    text-emphasis: bold;
+    border-style: solid;
+    border: 5px;
+}
+
+td{
+    border: 1px;
+    border-color: gold;
+    border-style: solid;
+    max-height: 2px;
+}
+
+#bio{
+    max-height: none;
+}
+
+tbody tr{
+    border: 3px;
+    border-style: solid;
+}
+
+img{
+    max-width: 256px;
+    max-height: 256px;
+}
