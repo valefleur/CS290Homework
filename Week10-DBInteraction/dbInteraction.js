@@ -16,6 +16,11 @@ app.use(bodyparser.json());
 app.set("port", 3001);
 var port = app.get("port");
 
+//connect to DB
+/*
+var mysql = require('./dbcon.js');
+*/
+
 //set up DB
 var mysql = require("mysql");
 var pool = mysql.createPool({
@@ -26,10 +31,10 @@ var pool = mysql.createPool({
 });
 
 // set up Routes
-app.get("/", function(req, res){
+app.get("/", function(req, res, next){
     console.log("Inside '/'");
     var context = {};
-    mysql.pool.query('SELECT * FROM todo', function(err, rows, fields){ //errs on this line
+    pool.query('SELECT * FROM todo', function(err, rows, fields){ //errs on this line
         //is this file connected to my DB correctly?
         //is my DB even set up correctly? file extention and all that
         console.log("Request to DB sent");
@@ -39,9 +44,9 @@ app.get("/", function(req, res){
            return;
        }
         context.results = JSON.stringify(rows);
-    });
-    context.db = "Nothing yet!";
-   res.render("home", context); 
+        context.db = "We're trying!";
+        res.render("home", context);
+    }); 
 });
 
 

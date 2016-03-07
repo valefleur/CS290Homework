@@ -4,3 +4,5 @@ CREATE TABLE todo(
     done BOOLEAN,
     due DATE
 );
+
+INSERT INTO todo (name, done, due) VALUES ("Database HW",0,"2016-3-13");

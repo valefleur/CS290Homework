@@ -19,6 +19,7 @@ td{
 
 #bio{
     max-height: none;
+    max-width: 256px;
 }
 
 tbody tr{
