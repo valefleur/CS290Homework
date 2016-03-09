@@ -25,16 +25,17 @@ app.get("/", function(req, res, next){
     console.log("Here we are at /");
     var context = {};
     context.msg = "Here's a message!";
-    makeRequest();
+    getArtistHotttnesss("versaille");
+    getBiographies("versaille");
     res.render("home", context);
 });
 
 
 //set up a function that makes a request to Echo Nest
 // and writes the response out to the console
-function makeRequest(){
+function getArtistHotttnesss(artist){
     var sync = true;
-    var sendString = null;
+    var hotttString = null;
     
     //set up variables which hold request info
     var url = "http://developer.echonest.com/api/v4/";
@@ -42,12 +43,12 @@ function makeRequest(){
     var hotttnesss = "hotttnesss";
     var withkey = "?api_key=" + creds.echoNest;
     console.log("Key string: " + withkey);
-    var ofArtist = "&name=alt+j";
+    var ofArtist = "&name="+artist;
     
     //var artist = document.getElementById("artist").value;
     //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
-    sendString = url + getArtist + hotttnesss + withkey + ofArtist;
-    console.log("**sendString is: " + sendString);
+    hotttString = url + getArtist + hotttnesss + withkey + ofArtist;
+    console.log("**hotttString is: " + hotttString);
     
     //set up js requirements for making requests
 /* THIS WAY CAME FROM THE TEACHER AND GIVES THE CORS PROBLEM
@@ -62,10 +63,33 @@ function makeRequest(){
     request.send(null);
     console.log("**Sent null");*/
     
-    request(sendString, function(error, response, body){
-        console.log("Sent request...");
+    request(hotttString, function(error, response, body){
+        console.log("Sent request hotttnesss...");
         if(!error && response.statusCode < 400){
-            console.log("Node request responded with: " + body);
+            console.log("GetArtistHotttnesss responded with: " + body);
+        }
+    });
+}
+
+function getBiographies(artist){
+    var sync = true;
+    var bioString = null;
+    
+    //set up variables which hold request info
+    var url = "http://developer.echonest.com/api/v4/";
+    var getArtist = "artist/";
+    var getBios = "biographies/";
+    var withkey = "?api_key=" + creds.echoNest;
+    console.log("Key string: " + withkey);
+    var ofArtist = "&name="+artist;
+
+    bioString = url + getArtist + getBios + withkey + ofArtist;
+    console.log("**bioString is: " + bioString);
+    
+    request(bioString, function(error, response, body){
+        console.log("Sent request bio...");
+        if(!error && response.statusCode < 400){
+            console.log("Get Biographies responded with: " + body);
         }
     });
 }

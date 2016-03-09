@@ -11,23 +11,52 @@ app.set("view engine", "handlebars");
 
 //set up Request Module
 var request = require("request");
-
 var creds = require("./credentials.js");
 
 //set up Express-sessions
-//not using for now
+var session = require("express-session");
+app.use(session({secret:"MtWoRw", resave:"false", saveUninitialized:"false"}));
 
 //set up BodyParser
-//not using for now
+var bodyparser = require("body-parser");
+app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
 
 //set up Routes
 app.get("/", function(req, res, next){
     console.log("Here we are at /");
     var context = {};
     context.msg = "Here's a message!";
-    getArtistHotttnesss("versaille");
-    getBiographies("versaille");
-    res.render("home", context);
+    //getArtistHotttnesss("versaille");
+    //getBiographies("versaille");
+    if(req.body["favArtist"] == undefined){
+        console.log("rendering intro1");
+        res.render("intro1", context);
+    }
+    else{
+        var artist = req.body["favArtist"];
+        console.log("req.body is: " + req.body["favArtist"]);
+        //make request for artist hotttness and display on intro2
+        var body = null;
+        if(body = getArtistHotttnesss(artist)){
+            console.log("rendering intro2");
+            res.render("intro2", context); 
+        }
+        else console.log("Error getting hotttnesss: " + body);
+    }
+});
+
+app.get("/intro2", function(req, res, next){
+    console.log("DEBUG: at /intro2");
+    var context = {};
+    var artist = req.body["favArtist"];
+    console.log("req.body is: " + req.body["favArtist"]);
+    //make request for artist hotttness and display on intro2
+    var body = null;
+    if(body = getArtistHotttnesss(artist)){
+        res.render("intro2", context);      
+    }
+    else console.log("Error getting hotttnesss: " + body);
 });
 
 
@@ -42,11 +71,8 @@ function getArtistHotttnesss(artist){
     var getArtist = "artist/";
     var hotttnesss = "hotttnesss";
     var withkey = "?api_key=" + creds.echoNest;
-    console.log("Key string: " + withkey);
     var ofArtist = "&name="+artist;
     
-    //var artist = document.getElementById("artist").value;
-    //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
     hotttString = url + getArtist + hotttnesss + withkey + ofArtist;
     console.log("**hotttString is: " + hotttString);
     
@@ -67,6 +93,7 @@ function getArtistHotttnesss(artist){
         console.log("Sent request hotttnesss...");
         if(!error && response.statusCode < 400){
             console.log("GetArtistHotttnesss responded with: " + body);
+            return body;
         }
     });
 }
@@ -82,24 +109,9 @@ function getBiographies(artist){
     var withkey = "?api_key=" + creds.echoNest;
     console.log("Key string: " + withkey);
     var ofArtist = "&name="+artist;
-    
-    //var artist = document.getElementById("artist").value;
-    //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
+
     bioString = url + getArtist + getBios + withkey + ofArtist;
     console.log("**bioString is: " + bioString);
-    
-    //set up js requirements for making requests
-/* THIS WAY CAME FROM THE TEACHER AND GIVES THE CORS PROBLEM
-    var request = new XMLHttpRequest();
-    request.open("GET", sendString, sync);
-    console.log("**Opened connection");
-    request.addEventListener("load", function(){
-        console.log("**Hit a 'load' event");
-        var response = JSON.parse(request.responseText);
-        console.log(response);
-    });
-    request.send(null);
-    console.log("**Sent null");*/
     
     request(bioString, function(error, response, body){
         console.log("Sent request bio...");
