@@ -24,39 +24,71 @@ app.use(bodyparser.json());
 
 //set up Routes
 app.get("/", function(req, res, next){
-    console.log("Here we are at /");
+    console.log("Here we are at GET /");
     var context = {};
     context.msg = "Here's a message!";
     //getArtistHotttnesss("versaille");
     //getBiographies("versaille");
-    if(req.body["favArtist"] == undefined){
-        console.log("rendering intro1");
+    if(!req.session.favArtist){
+        console.log("GET: no session favArtist");
         res.render("intro1", context);
+        return;
     }
-    else{
-        var artist = req.body["favArtist"];
-        console.log("req.body is: " + req.body["favArtist"]);
-        //make request for artist hotttness and display on intro2
-        var body = null;
-        if(body = getArtistHotttnesss(artist)){
-            console.log("rendering intro2");
+
+});
+
+app.post("/", function(req, res, next){
+    console.log("Here we are at POST /");
+    var context = {};
+    
+    //if info was given to us, capture it in a session here
+    if(req.body["gotFavArtist"]){
+        console.log("gotFavArtist button clicked!  favArtist is: " + req.body.favArtist);
+        req.session.favArtist = req.body.favArtist;
+        
+        //now, use said session info
+        context.favArtist = req.session.favArtist;
+        var response = null;
+        
+        //I think this line is executing and returning before the request
+        //is even sent, which means the response will always be undefined
+        //How do I give getArtistHotttnesss access to res.render() and/or
+        //ensure that my app.post(route) will have access to a response 
+        //that has been locked away in a different function 
+        //(for library purposes)?  This is the big question to answer.
+        response = getArtistHotttnesss(context.favArtist);
+        console.log("resonse from getArtistHotttnesss is: " + response);
+        if(response != undefined || null){
+            console.log("rendering intro2 with artist hotttnesss info");
             res.render("intro2", context); 
         }
-        else console.log("Error getting hotttnesss: " + body);
+        else console.log("Error getting hotttnesss: " + response);
     }
+    
+    //if no session info, ask for it
+    if(!req.session.favArtist){
+        console.log("POST: no session favArtist.  Rendering intro1 now.");
+        res.render("intro1", context);
+        return;
+    }
+    
+    console.log("Got to end of POST /.  Did anything get rendered?");
 });
 
 app.get("/intro2", function(req, res, next){
     console.log("DEBUG: at /intro2");
     var context = {};
-    var artist = req.body["favArtist"];
-    console.log("req.body is: " + req.body["favArtist"]);
+    //var artist = req.body["favArtist"];
+    var artist = req.session.favArtist;
+    console.log("artist is: " + artist);
     //make request for artist hotttness and display on intro2
-    var body = null;
-    if(body = getArtistHotttnesss(artist)){
+    var response = null;
+    response = getArtistHotttnesss(artist);
+    console.log("resonse from getArtistHotttnesss is: " + response);
+    if(response != undefined || null){
         res.render("intro2", context);      
     }
-    else console.log("Error getting hotttnesss: " + body);
+    else console.log("Error getting hotttnesss: " + response);
 });
 
 
