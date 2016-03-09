@@ -25,17 +25,16 @@ app.get("/", function(req, res, next){
     console.log("Here we are at /");
     var context = {};
     context.msg = "Here's a message!";
-    getArtistHotttnesss("versaille");
-    getBiographies("versaille");
+    makeRequest();
     res.render("home", context);
 });
 
 
 //set up a function that makes a request to Echo Nest
 // and writes the response out to the console
-function getArtistHotttnesss(artist){
+function makeRequest(){
     var sync = true;
-    var hotttString = null;
+    var sendString = null;
     
     //set up variables which hold request info
     var url = "http://developer.echonest.com/api/v4/";
@@ -43,12 +42,12 @@ function getArtistHotttnesss(artist){
     var hotttnesss = "hotttnesss";
     var withkey = "?api_key=" + creds.echoNest;
     console.log("Key string: " + withkey);
-    var ofArtist = "&name="+artist;
+    var ofArtist = "&name=alt+j";
     
     //var artist = document.getElementById("artist").value;
     //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
-    hotttString = url + getArtist + hotttnesss + withkey + ofArtist;
-    console.log("**hotttString is: " + hotttString);
+    sendString = url + getArtist + hotttnesss + withkey + ofArtist;
+    console.log("**sendString is: " + sendString);
     
     //set up js requirements for making requests
 /* THIS WAY CAME FROM THE TEACHER AND GIVES THE CORS PROBLEM
@@ -63,48 +62,10 @@ function getArtistHotttnesss(artist){
     request.send(null);
     console.log("**Sent null");*/
     
-    request(hotttString, function(error, response, body){
-        console.log("Sent request hotttnesss...");
+    request(sendString, function(error, response, body){
+        console.log("Sent request...");
         if(!error && response.statusCode < 400){
-            console.log("GetArtistHotttnesss responded with: " + body);
-        }
-    });
-}
-
-function getBiographies(artist){
-    var sync = true;
-    var bioString = null;
-    
-    //set up variables which hold request info
-    var url = "http://developer.echonest.com/api/v4/";
-    var getArtist = "artist/";
-    var getBios = "biographies/";
-    var withkey = "?api_key=" + creds.echoNest;
-    console.log("Key string: " + withkey);
-    var ofArtist = "&name="+artist;
-    
-    //var artist = document.getElementById("artist").value;
-    //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
-    bioString = url + getArtist + getBios + withkey + ofArtist;
-    console.log("**bioString is: " + bioString);
-    
-    //set up js requirements for making requests
-/* THIS WAY CAME FROM THE TEACHER AND GIVES THE CORS PROBLEM
-    var request = new XMLHttpRequest();
-    request.open("GET", sendString, sync);
-    console.log("**Opened connection");
-    request.addEventListener("load", function(){
-        console.log("**Hit a 'load' event");
-        var response = JSON.parse(request.responseText);
-        console.log(response);
-    });
-    request.send(null);
-    console.log("**Sent null");*/
-    
-    request(bioString, function(error, response, body){
-        console.log("Sent request bio...");
-        if(!error && response.statusCode < 400){
-            console.log("Get Biographies responded with: " + body);
+            console.log("Node request responded with: " + body);
         }
     });
 }
