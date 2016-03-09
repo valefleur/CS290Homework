@@ -9,6 +9,9 @@ var handles = require("express-handlebars").create({defaultLayout:"main"});
 app.engine("handlebars", handles.engine);
 app.set("view engine", "handlebars");
 
+//set up Request Module
+var request = require("request");
+
 var creds = require("./credentials.js");
 
 //set up Express-sessions
