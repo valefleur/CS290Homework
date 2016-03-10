@@ -1,3 +1,13 @@
+/*
+Adina Edwards
+9th March 2016
+CS290 Week10
+HowTo on Echo Nest's API
+
+Help with requests from
+http://blog.modulus.io/node.js-tutorial-how-to-use-request-module
+*/
+
 //set up Node & extensions
 var express = require("express");
 var app = express();
@@ -11,28 +21,63 @@ app.set("view engine", "handlebars");
 
 //set up Request Module
 var request = require("request");
-
 var creds = require("./credentials.js");
 
 //set up Express-sessions
-//not using for now
+var session = require("express-session");
+app.use(session({secret:"MtWoRw", resave:"false", saveUninitialized:"false"}));
 
 //set up BodyParser
-//not using for now
+var bodyparser = require("body-parser");
+app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json());
+
+//DON'T TOUCH THE ABOVE CODE; IT WORKS FINE
 
 //set up Routes
 app.get("/", function(req, res, next){
-    console.log("Here we are at /");
+    console.log("Here we are at GET /");
     var context = {};
-    context.msg = "Here's a message!";
-    getArtistHotttnesss("versaille");
-    getBiographies("versaille");
-    res.render("home", context);
+    if(!req.session.favArtist){
+        console.log("GET: no session favArtist");
+        res.render("intro1", context);
+        return;
+    }
+});
+
+app.post("/intro2", function(req, res, next){
+    console.log("At POST /intro2");
+    var context = {}
+    if(req.body["gotFavArtist"]){
+        console.log("in /intro2 : gotFavArtist button clicked!  favArtist is: " + req.body.favArtist);
+        req.session.favArtist = req.body.favArtist;
+        
+        //now, use said session info
+        context.favArtist = req.session.favArtist;
+        //var response = null;
+        
+        hotttString = getArtistHotttnesss(context.favArtist);
+        request(hotttString, function(error, response, body){
+            console.log("Sent request hotttnesss...");
+            if(!error && response.statusCode < 400){
+                console.log("GetArtistHotttnesss responded with: " + body);
+                context.hotttnesss = parseArtistHotttnesss(body);
+                res.render("intro2", context); 
+            }
+            else console.log("Error getting hotttnesss: " + error);
+        });
+    }
+    
 });
 
 
-//set up a function that makes a request to Echo Nest
-// and writes the response out to the console
+//Set up functions for requesting and parsing
+// These functions will make up the actual
+// JS Echo Nest Library
+
+//Creates a string for requesting artist hotttnesss
+//Parameters: artist name
+//Returns: A string which will request artist hotttnesss
 function getArtistHotttnesss(artist){
     var sync = true;
     var hotttString = null;
@@ -42,34 +87,28 @@ function getArtistHotttnesss(artist){
     var getArtist = "artist/";
     var hotttnesss = "hotttnesss";
     var withkey = "?api_key=" + creds.echoNest;
-    console.log("Key string: " + withkey);
     var ofArtist = "&name="+artist;
     
-    //var artist = document.getElementById("artist").value;
-    //document.getElementById("debug").innerHTML = "<br>Artist is: " + artist;
     hotttString = url + getArtist + hotttnesss + withkey + ofArtist;
     console.log("**hotttString is: " + hotttString);
     
-    //set up js requirements for making requests
-/* THIS WAY CAME FROM THE TEACHER AND GIVES THE CORS PROBLEM
-    var request = new XMLHttpRequest();
-    request.open("GET", sendString, sync);
-    console.log("**Opened connection");
-    request.addEventListener("load", function(){
-        console.log("**Hit a 'load' event");
-        var response = JSON.parse(request.responseText);
-        console.log(response);
-    });
-    request.send(null);
-    console.log("**Sent null");*/
-    
-    request(hotttString, function(error, response, body){
-        console.log("Sent request hotttnesss...");
-        if(!error && response.statusCode < 400){
-            console.log("GetArtistHotttnesss responded with: " + body);
-        }
-    });
+    return hotttString;
 }
+
+//parse an Artist Hottttnesss response
+//Parameters: body is the response object from Echo Nest
+//Returns:
+//  On success: hottttnesss value
+//  On failure: message about request
+function parseArtistHotttnesss(body){
+    var resObj = JSON.parse(body);
+    if(resObj.response.status.message != "Success"){
+        return "ERROR: Response from Echo Nest failed." + resObj.response.status.message;
+    }
+    return resObj.response.artist.hotttnesss;
+}
+
+
 
 function getBiographies(artist){
     var sync = true;
