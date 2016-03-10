@@ -45,6 +45,11 @@ app.get("/", function(req, res, next){
         res.render("intro1", context);
         return;
     }
+    else{
+        console.log("Resetting favArtist to null.");
+        req.session.favArtist = null;
+        res.render("intro1", context);
+    }
 });
 
 app.post("/explaination", function(req, res, next){
