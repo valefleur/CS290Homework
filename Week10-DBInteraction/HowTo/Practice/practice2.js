@@ -84,25 +84,40 @@ app.post("/intro2", function(req, res, next){
         context.favArtist = req.session.favArtist;
         var response = null;
         
-        hotttString = getArtistHotttnesss(context.favArtist);
-        biosString = getBiographies(context.favArtist, 1, 0);
+        var hotttString = getArtistHotttnesss(context.favArtist);
+        var biosString = getArtistBiographies(context.favArtist, 1, 0);
+        var imagesString = getArtistImages(context.favArtist, 1, 0);
+        //request hotttnesss
         request(hotttString, function(error, response, body){
             console.log("Sent request hotttnesss...");
             if(!error && response.statusCode < 400){
                 console.log("GetArtistHotttnesss responded with: " + body);
                 context.hotttnesss = parseArtistHotttnesss(body);
-                request(biosString, function(error1, response1, body1){
-                    if(!error1 && response1.statusCode < 400){
-                        console.log("GetArtistBiographies responded with: " + body1);
-                        context.bio = parseArtistBiographies(body1);
+                
+                //Request image
+                request(imagesString, function(error0, response0, body0){
+                    console.log("Sent request images...");
+                    if(!error0 && response0.statusCode < 400){
+                        //console.log("getArtistImages responded with: " + body0);
+                        context.images = parseArtistImages(body0);
+                        context.oneImageURL = context.images[0].url;
+                        console.log("context.oneImageURL is: " +context.oneImageURL);
+                        //Request bios
+                        request(biosString, function(error1, response1, body1){
+                            if(!error1 && response1.statusCode < 400){
+                                //console.log("GetArtistBiographies responded with: " + body1);
+                                context.bios = parseArtistBiographies(body1);
+                                res.render("intro2", context); //GOES IN INNER MOST REQUEST
+                            }
+                            else console.log("Error getting bios: " + error1);
+                        });
                     }
+                    else console.log("Error getting images: " + error0);
                 });
-                res.render("intro2", context); //GOES IN INNER MOST REQUEST
             }
             else console.log("Error getting hotttnesss: " + error);
         });
     }
-    
 });
 
 
@@ -121,6 +136,7 @@ app.get("/intro2", function(req, res, next){
     }
     else console.log("Error getting hotttnesss: " + response);
 });
+
 
 
 //Creates a string for requesting artist hotttnesss
@@ -161,7 +177,34 @@ function parseArtistBiographies(body){
     if(resObj.response.status.message != "Success"){
        return "ERROR: Bio response from Echo Nest failed." + resObj.response.status.message;
        }
-    return resObj.response.artist.bio; //probably the wrong last part
+    var bioArray = [];
+    var current = 0;
+    var count = resObj.response.total;
+    if (count > 5){
+        count = 5;
+    }
+    var bios = resObj.response.biographies;
+    //console.log(typeof(bios));
+    //console.log(typeof(resObj.response.biographies));
+    //order bios by not truncated, then truncated
+    for(var i = 0; i < count; i++){
+        if(bios[i].truncated){
+            //put item at end of bioArray
+            bioArray.push(bios[i]);
+        }
+        else bioArray.unshift(bios[i]);
+    }
+    if(bioArray.length != count){
+        console.log("ERROR: bioArray.length != count " + bioArray.length + " " + count);
+        for(var j = 0; j < bioArray.length; j++){
+            console.log(bioArray[i]);
+        }
+    }
+    //else console.log("bioArray.length & count " + bioArray.length + " " + count);
+    
+    return bioArray; //probably the wrong last part
+    //I suspect this will fail because biographies: [{test:"", site:""...}]
+    //I need to access this differently.  Is [] an array?  I think so...
 }
 
 //Creates a string for requesting artist biographies
@@ -170,7 +213,7 @@ function parseArtistBiographies(body){
 //  quantity indicates how many bios to request
 //  start indicates which bio to start with
 //Returns: a string requesting a quantity number of bios for artist from start onward
-function getBiographies(artist, quantity, start){
+function getArtistBiographies(artist, quantity, start){
     var sync = true;
     var bioString = null;
     
@@ -181,20 +224,69 @@ function getBiographies(artist, quantity, start){
     var withkey = "?api_key=" + creds.echoNest;
     var results = quantity || 15;
     var start = start || 0;
-    console.log("Key string: " + withkey);
+    //console.log("Key string: " + withkey);
     var ofArtist = "&name="+artist;
 
     bioString = url + getArtist + getBios + withkey + ofArtist;
     return bioString;
     console.log("**bioString is: " + bioString);
-   /* 
-    request(bioString, function(error, response, body){
-        console.log("Sent request bio...");
-        if(!error && response.statusCode < 400){
-            console.log("Get Biographies responded with: " + body);
+}
+
+//Creates a string for requesting artist images
+//Parameters: 
+//  artist name
+//  quantity
+//  start index
+//Returns: Array of objects representing images
+function getArtistImages(artist, quantity, start){
+    var imagesString = null;
+    //set up variables which hold request info
+    var url = "http://developer.echonest.com/api/v4/";
+    var getArtist = "artist/";
+    var getImages = "images/";
+    var withkey = "?api_key=" + creds.echoNest;
+    var results = quantity || 15;
+    var start = start || 0;
+    var ofArtist = "&name=" + artist;
+
+    imagesString = url + getArtist + getImages + withkey + ofArtist;
+    return imagesString;
+    console.log("**imagesString is: " + imagesString);
+    
+}
+
+
+//Parses response from getArtistImages
+//Parameters: body object returned by response
+//Returns: array of image objects
+function parseArtistImages(body){
+    var resObj = JSON.parse(body);
+    if(resObj.response.status.message != "Success"){
+       return "ERROR: Images response from Echo Nest failed." + resObj.response.status.message;
+       }
+    var imagesArray = [];
+    var current = 0;
+    var count = resObj.response.total;
+    var images = resObj.response.images;
+    console.log("count is: " + count);
+    console.log("images: " + images);
+    //order bios by not truncated, then truncated
+    for(var i = 0; i < count; i++){
+        if(images[i].url){
+            //put item at end of bioArray
+            imagesArray.push(images[i]);
         }
-    });
-    */
+        else console.log("Image without URL!");
+    }
+    if(imagesArray.length != count){
+        console.log("ERROR: imagesArray.length != count " + imagesArray.length + " " + count);
+        for(var j = 0; j < imagesArray.length; j++){
+            console.log(imagesArray[j]);
+        }
+    }
+    else console.log("imagesArray.length & count " + imagesArray.length + " " + count);
+    
+    return imagesArray;
 }
 
 

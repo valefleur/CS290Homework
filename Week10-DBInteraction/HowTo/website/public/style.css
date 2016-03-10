@@ -16,6 +16,10 @@ td{
     border-style: solid;
 }
 
+#bio{
+    max-width: 300px;
+}
+
 tbody tr{
     border: 3px;
     border-style: solid;
@@ -23,5 +27,6 @@ tbody tr{
 
 img{
     max-width: 128px;
+    width: 128px;
     max-height: 128px;
 }

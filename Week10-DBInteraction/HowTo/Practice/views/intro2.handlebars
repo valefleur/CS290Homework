@@ -5,12 +5,17 @@
         <tbody>
             <tr>
                 <th>Your Favorite Artist: {{favArtist}}</th>
-                <th rowspan="5"><img src="practiceImage.jpg" alt="Image of artist"></th>
+                <th rowspan="5">{{#if oneImageURL}}
+                    <img id="img" src={{oneImageURL}}>
+                {{/if}}</th>
             </tr>
             <tr><td>Hotttnesss: {{hotttnesss}}</td></tr>
-            <tr><td>Popularity: </td></tr>
-            <tr><td>Homepage: </td></tr>
-            <tr><td>Biography: </td></tr>
+            <tr><td id="bio">Biography: {{#if bios}}
+                {{#each bios}}<ul>
+                    <li><p>{{this.text}}</p>
+                        <p>Read more on <a href={{this.url}}>{{this.site}}</a>.</p></li>
+                </ul>{{/each}}
+                {{/if}}</td></tr>
         </tbody>
     </table>
-</span>
+</span> 
