@@ -8,6 +8,17 @@ Help with requests from
 http://blog.modulus.io/node.js-tutorial-how-to-use-request-module
 */
 
+/*
+TODO
+- have Next button render page about "Before we begin"
+- Next, render page about getArtistHotttnesss
+- then about parseArtistHotttness
+- then show example JS request for artist hotttnesss
+- render pages about getArtistImages & parseArtistImages
+- render pages about getArtistBios & parseArtistBios
+- show example of all of it put together
+*/
+
 //set up Node & extensions
 var express = require("express");
 var app = express();
@@ -59,6 +70,27 @@ app.post("/explaination", function(req, res, next){
     }
     
     res.render("HowToPage", context); 
+});
+
+app.post("/BeforeWeBegin", function(req, res, next){
+    console.log("At POST /BeforeWeBegin");
+    var context = {};
+    context.title = "Before We Begin";
+    context.assumptions = [{item:"Javascript"},{item:"JSON Objects"}, {item:"The concept of clients and servers"}];
+    console.log(context.assumptions.length)
+    context.text1 = "This tutorial assumes you area already familiar with: "
+    context.text2 = "Please click Next to continue.";
+
+    res.render("BeforeWeBegin", context);
+});
+
+app.post("/description", function(req, res, next){
+    console.log("At POST /description");
+    var context = {};
+    context.ch = "Getting Started"
+    context.pg = "Getting a Key & Why We Need One";
+    context.text = [{item: "Echo Nest requires that developers create an Echo Nest Developer Account.  This account will be used to track a developer, and the developer’s use of the Echo Nest API key.  This key is important: it is required as part of any request to Echo Nest.  Without it, requests will be ignored."},{item: "Using this API key allows Echo Nest to track how often an application makes requests to the Echo Nest API.  If too many requests are received within a set amount of time, rate limiting will be applied.  This ensures access to other applications using the same API.  For our purposes, it is unlikely that we will encounter rate limiting."},{item: "To set up a developer account, go to Echo Nest’s Create an Account page: https://developer.echonest.com/account/register and fill in the requested information.  Follow the instructions for obtaining your key.", url: "https://developer.echonest.com/account/register"}];
+    res.render("HowToPage", context);
 });
 
 app.post("/intro2", function(req, res, next){

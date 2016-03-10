@@ -1,0 +1,12 @@
+<h1>{{title}}</h1>
+<p>{{text1}}
+    {{#if assumptions}}<ul>
+        {{#each assumptions}}
+            <li>{{this.item}}</li>
+        {{/each}}
+    </ul>{{/if}}
+</p>
+<p>{{text2}}</p>
+<form method="post" action="/description">
+    <button type="submit" name="next">Next</button>
+</form>
