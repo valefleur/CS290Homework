@@ -12,20 +12,47 @@ Link to ToC
 
 <!-- Page Content here -->
 {{#if text}}
+    <!-- assumes text is [{item: "some text"}] -->
     {{#each text}}
         <p>{{this.item}}</p>
+
+            {{#if this.bullets}}
+            <ul>
+                {{#each this.bullets}}
+                <li>{{this.dif}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+
             {{#if this.url}}
 <a href="{{this.url}}">Click here to visit the link.</a>
             {{/if}}
     {{/each}}
 {{/if}}
 
+{{#if get}}
+    <h3>{{get.name}}</h3>
+    <p>{{get.des}}</p>
+    <pre><code>{{this.code}}</code></pre>
+{{/if}}
 
-<form method="post">
-    <button type="submit" name="next">Next</button>
+{{#if parse}}
+    <h3>{{parse.name}}</h3>
+    <p>{{parse.des}}</p>
+    <pre><code>{{this.code}}</code></pre>
+{{/if}}
+
+{{#if together}}
+    <p>{{together.text}}</p>
+    <pre><code>{{this.code}}</code></pre>
+{{/if}}
+
+
+<form method="post" action="/{{next}}">
+    <button type="submit" name="next" value="next">Next</button>
 </form>
-<form method="post" action="/BeforeWeBegin">
-    <button type="submit" name="previous">Previous</button>
+<form method="post" action="/{{previous}}">
+    <button type="submit" name="previous" value="previous">Previous</button>
 </form>
 <!-- Figure out how to format this so Back is on the right
 ToC in the middle and
