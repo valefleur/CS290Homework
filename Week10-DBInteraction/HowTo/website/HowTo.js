@@ -143,9 +143,10 @@ app.post("/hotttnesss", function(req, res, next){
     context.next = "images";
     context.previous = "library";
     context.text = [{item:"Hotttnesss is a parameter defined by Echo Nest as “how hottt an artist currently is”. [http://developer.echonest.com/docs/v4/artist.html#hotttnesss]<a href=></a>  A blog post on Music Machinery mentions that hotttnesss is an indicator of how much buzz there is around a current artist.  This could correspond to how frequently their name is mentioned in blog posts, reviews, play counts, etc. [http://musicmachinery.com/2009/12/09/a-rising-star-or/]<a href=>Hottt or Nottt</a>"}, {item:"Hotttnesss is a value between 0 and 1, where the higher the value the more buzz the artist has.  Significantly popular artists like David Guetta have a hotttnesss around 0.7, where artists like Sleepy have a hotttnesss closer to 0.3.  Values outside of [0.3, 0.7] are very rare.  Even The Beatles have a hotttnesss of 0.776."}];
-    context.get = {name:"getArtistHotttnesss",des:"This function will create the string sent to Echo Nest during a request.  The only parameter it accepts is the artist name, although it does expect Echo Nest developer credentials to be supplied via an external file.  The string returned from this function can immediately be used in the request like so:", code:"ENTER CODE HERE"}
-    context.parse = {name:"parseArtistHotttnesss",des:"The response from a request for hotttnesss holds several values, but generally the value we care about is the hotttnesss value itself.  parseArtistHotttnesss returns that value if the request was successful.  Otherwise, it returns the error message from the response status.  It takes the entire response object.", code:"ENTER CODE HERE"}
-    context.together = {text:"", code:"ENTER LIBRARY CODE HERE"};
+    context.get = {name:"getArtistHotttnesss",des:"This function will create the string sent to Echo Nest during a request.  The only parameter it accepts is the artist name, although it does expect Echo Nest developer credentials to be supplied via an external file.  The string returned from this function can immediately be used in the request like so:", hotttnesss:true, code:"ENTER CODE HERE"}
+    console.log("context.get.code is: " + context.get.code);
+    context.parse = {name:"parseArtistHotttnesss",des:"The response from a request for hotttnesss holds several values, but generally the value we care about is the hotttnesss value itself.  parseArtistHotttnesss returns that value if the request was successful.  Otherwise, it returns the error message from the response status.  It takes the entire response object.", hotttnesss:true, code:"ENTER CODE HERE"}
+    context.together = {text:"Here's the code in action:", hotttnesss:true, code:"ENTER LIBRARY CODE HERE"};
     
     res.render("HowToPage", context);
 });
@@ -156,23 +157,25 @@ app.post("/images", function(req, res, next){
     var context = {};
     context.ch = "Images"
     context.pg = "Let's Get Some Visuals";
-    context.next = "bios";
+    //context.next = "bios";
     context.previous = "hotttnesss";
     context.text = [{item:"Echo Nest doesn’t have an API call for requesting a single image.  Instead, it has a call for requesting several images.  The hottter the artist, generally the more images are available."}, {item:"And since we are talking about making requests to and from webservers, the response doesn’t contain jpegs or pngs; instead, it contains web links to said jpegs and pngs.  Getting the resulting picture to display requires that the server hosting the image is up and running.  (While utilizing this particular call, I have noticed that the first sets of images returned by Echo Nest are frequently hosted on a server that doesn’t respond and may very well not be running at all.  If developing a professional website, I would put effort into protecting against this sort of behavior, but as my focus is on the content of this HowTo, and less so on developing a pristine browsing experience, we will all have to suffer with broken images.)"}];
-    context.get = {name:"getArtistImages", des:"As it sounds, getArtistImages builds the request string for requesting images of a particular artist.  In order to do so, it takes in the artist, a quantity and a starting index as parameters.  Along with the request payload, Echo Nest will provide information about how many artist images it has.  The start value indicates from where in this entire list to start pulling images. It returns an array of length quantity where each element is an object containing information about a single image.", code:"ENTER CODE HERE"};
-    context.parse = {name:"parseArtistImages",des:"parseArtistImages takes the response body from the images request.  If an error was received, it reports the error; otherwise it returns an array of image objects.  Image objects contain a url to an image file (whether or not the server on the receiving side of that url responds seems to be questionable as noted above) and some licensing information for that image.", code:"ENTER CODE HERE"}
-    context.together = {text:"Together the two functions work as so:", code:"ENTER LIBRARY CODE HERE"};
+    context.get = {name:"getArtistImages", des:"As it sounds, getArtistImages builds the request string for requesting images of a particular artist.  In order to do so, it takes in the artist, a quantity and a starting index as parameters.  Along with the request payload, Echo Nest will provide information about how many artist images it has.  The start value indicates from where in this entire list to start pulling images. It returns an array of length quantity where each element is an object containing information about a single image.", images:true, code:"ENTER CODE HERE"};
+    context.parse = {name:"parseArtistImages",des:"parseArtistImages takes the response body from the images request.  If an error was received, it reports the error; otherwise it returns an array of image objects.  Image objects contain a url to an image file (whether or not the server on the receiving side of that url responds seems to be questionable as noted above) and some licensing information for that image.", images:true, code:"ENTER CODE HERE"}
+    context.together = {text:"Together the two functions work as so:", images:true, code:"ENTER LIBRARY CODE HERE"};
     
     res.render("HowToPage", context);
 });
 
-app.post("/dontgohere", function(req, res, next){
-    console.log("At POST /responses");
+app.post("/bios", function(req, res, next){
+    console.log("At POST /bios");
     var context = {};
-    context.ch = "Getting Started"
-    context.pg = "Getting a Key & Why We Need One";
+    context.ch = "Getting Biographies"
+    context.pg = "Who is this Artist, Again?";
+    context.previous = "images";
     context.text = [{item:""}];
     
+    context.together = {text:"", bios:true, code:"ENTER LIBRARY CODE HERE"};
     res.render("HowToPage", context);
 });
 
@@ -373,10 +376,6 @@ function parseArtistImages(body){
         count = 5;
     }
     var images = resObj.response.images;
-/*    for(var j = 0; j < count; j++){
-        console.log("j is: " + j);
-        console.log(images[j]);
-    }*/
     console.log("count is: " + count);
     
     //order bios by not truncated, then truncated
