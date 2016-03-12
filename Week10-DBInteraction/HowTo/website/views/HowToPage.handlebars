@@ -38,7 +38,6 @@ Link to ToC
 //Parameters: artist name
 //Returns: A string which will request artist hotttnesss
 function getArtistHotttnesss(artist){
-    var sync = true;
     var hotttString = null;
     
     //set up variables which hold request info
@@ -48,8 +47,8 @@ function getArtistHotttnesss(artist){
     var withkey = "?api_key=" + creds.echoNest;
     var ofArtist = "&name="+artist;
     
+    //construct the request string
     hotttString = url + getArtist + hotttnesss + withkey + ofArtist;
-    console.log("**hotttString is: " + hotttString);
     
     return hotttString;
 }
@@ -64,6 +63,7 @@ function getArtistHotttnesss(artist){
 //Returns: Array of objects representing images
 function getArtistImages(artist, quantity, start){
     var imagesString = null;
+    
     //set up variables which hold request info
     var url = "http://developer.echonest.com/api/v4/";
     var getArtist = "artist/";
@@ -73,9 +73,9 @@ function getArtistImages(artist, quantity, start){
     var start = start || 0;
     var ofArtist = "&name=" + artist;
 
+    //construct the request string
     imagesString = url + getArtist + getImages + withkey + ofArtist;
     return imagesString;
-    console.log("**imagesString is: " + imagesString);
     
 }
     </code></pre>{{/if}}
@@ -88,7 +88,6 @@ function getArtistImages(artist, quantity, start){
 //  start indicates which bio to start with
 //Returns: a string requesting a quantity number of bios for artist from start onward
 function getArtistBiographies(artist, quantity, start){
-    var sync = true;
     var bioString = null;
     
     //set up variables which hold request info
@@ -101,9 +100,9 @@ function getArtistBiographies(artist, quantity, start){
     //console.log("Key string: " + withkey);
     var ofArtist = "&name="+artist;
 
+    //construct the request string
     bioString = url + getArtist + getBios + withkey + ofArtist;
     return bioString;
-    console.log("**bioString is: " + bioString);
 }
     </code></pre>{{/if}}
 {{/if}}
@@ -111,6 +110,7 @@ function getArtistBiographies(artist, quantity, start){
 {{#if parse}}
     <h3>{{parse.name}}</h3>
     <p>{{parse.des}}</p>
+    {{#if parse.des1}}<p>{{parse.des1}}</p>{{/if}}
     {{#if parse.hotttnesss}}<pre><code>
 //parse an Artist Hottttnesss response
 //Parameters: body is the response object from Echo Nest
@@ -119,15 +119,18 @@ function getArtistBiographies(artist, quantity, start){
 //  On failure: message about request
 function parseArtistHotttnesss(body){
     var resObj = JSON.parse(body);
+    
+    //protect against errors in the response
     if(resObj.response.status.message != "Success"){
         return "ERROR: Response from Echo Nest failed." + resObj.response.status.message;
     }
-    return resObj.response.artist.hotttnesss;
+    if (resObj.response.artist.hotttnesss) return resObj.response.artist.hotttnesss;
+    else return "Couldn't get artist hotttnesss.";
 }
     </code></pre>{{/if}}
 
     {{#if parse.images}}<pre><code>
-    //Parses response from getArtistImages
+//Parses response from getArtistImages
 //Parameters: body object returned by response
 //Returns: array of image objects
 function parseArtistImages(body){
@@ -145,11 +148,10 @@ function parseArtistImages(body){
     var images = resObj.response.images;
     console.log("count is: " + count);
     
-    //order bios by not truncated, then truncated
+    //ensure images have a url
     for(var i = 0; i < count; i++){
-        console.log("i is: " + i);
         if(images[i].url){
-            //put item at end of bioArray
+            //put item at end of imagesArray
             imagesArray.push(images[i]);
         }
         else console.log("Image without URL!");
@@ -181,16 +183,10 @@ function parseArtistBiographies(body){
     var bioArray = [];
     var current = 0;
     var count = resObj.response.total;
-    if (count > 3){
-        count = 3;
-    }
+
     var bios = resObj.response.biographies;
-    //console.log("bio count is: " + count);
-    console.log("bios[0] is: " + bios[0]);
-    //console.log(typeof(bios[0]));
     //order bios by not truncated, then truncated
     for(var i = 0; i < count; i++){
-        //console.log("i is: " + i);
         if(bios[i].truncated){
             //put item at end of bioArray
             bioArray.push(bios[i]);
@@ -203,7 +199,6 @@ function parseArtistBiographies(body){
             console.log(bioArray[i]);
         }
     }
-    //else console.log("bioArray.length & count " + bioArray.length + " " + count);
     
     return bioArray;
 }
@@ -211,6 +206,7 @@ function parseArtistBiographies(body){
 {{/if}}
 
 {{#if together}}
+    <h3>All Together</h3>
     <p>{{together.text}}</p>
 
     {{#if together.hotttnesss}}<pre><code>
