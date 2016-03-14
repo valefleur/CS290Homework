@@ -18,7 +18,7 @@ app.set('port', 3000);
 
 app.get('/',function(req,res,next){
   var context = {};
-    mysql.pool.query('SELECT * FROM todo', function(err, rows, fields){
+    mysql.pool.query('SELECT * FROM student', function(err, rows, fields){
         if(err){
             next(err);
             return;
@@ -28,36 +28,41 @@ app.get('/',function(req,res,next){
     });
 });
 
-app.get('/inster', function(req, res, net){
+app.get('/insert', function(req, res, next){
     var context = {};
     //use backtics for table names or call names
     //single quotes are for strings
     // question marks are for db security
     // they represent some thing that will be inserted instead of executed
     /*
-    "INSTER INTO todo (`name`) VALUES " + user.input
+    "INSTER INTO student (`name`) VALUES " + user.input
     where user.input = "('foo;); SELECT * FROM passwords)" 
     That could be executed unless it's input with a question mark!
     */
-    mysql.pool.query("INSTER INTO todo (`name`) VALUES (?)", [req.query.c], function(err, rows, fields){
+    //var entry = "Inserted task via string!";
+//[req.query.c]
+    mysql.pool.query("INSERT INTO student (`name`) VALUES (?)", [req.query.c], function(err, result){
         if(err){
             next(err);
             return;
         }
-        context.results = "Inserted id " + result.insterId;
+        context.results = "Inserted id " + result.insertId;
         res.render("home", context);
     });
 });
 
 app.get('/delete', function(req, res, next){
     var context = {};
-    mysql.pool.query("DELETE FROM todo WHERE id=?", [req.query.id], function(err, rows, fields){
+    mysql.pool.query("DELETE FROM student WHERE id=?", [req.query.id], function(err, result){
         if(err){
             next(err);
             return;
         }
         //didn't work in lecture video
-        context.results = "Deleted " + result.changedRows + " rows.";
+        // when I practiced this, it said 0 changedRows, but the row was deleted
+        //maybe I should try deletedRows
+        //deletedRows said undefined...need to look at docs
+        context.results = "Deleted " + result.deletedRows + " rows.";
         res.render("home", context);
     });
 });
@@ -68,7 +73,7 @@ app.get('/delete', function(req, res, next){
 //use safe update to avoid this!
 app.get("/simple-update", function(req, res, next){
     var context ={};
-    mysql.pool.query("UPDATE todo SET name=?, done=?, due=?, WHERE id=? ", [req.query.name, req.query.done, req.query.due, req.query.id], function(err,result){
+    mysql.pool.query("UPDATE student SET name=?, done=?, due=? WHERE id=? ", [req.query.name, req.query.done, req.query.due, req.query.id], function(err,result){
         if(err){
             next(err);
             return;
@@ -80,7 +85,7 @@ app.get("/simple-update", function(req, res, next){
 
 app.get("/safe-update", function(req, res, next){
     var context = {};
-    mysql.pool.query("SELECT * FROM todo WHERE id=?" [req.query.id], function(err,result){
+    mysql.pool.query("SELECT * FROM student WHERE id=?", [req.query.id], function(err,result){
         if(err){
             next(err);
             return;
@@ -94,7 +99,8 @@ app.get("/safe-update", function(req, res, next){
             //WHELL, WHAT ABOUT || FOR THE BOOLEAN DONE?
             //values are sent as strings so "false" would be a true value
             //NOTE: this don'est update values to null
-            mysql.pool.query("UPDATE to do SET name=?, done=?, due=?, WHERE id=?",[req.query.name || curValues.name, req.query.done || curValues.done, req.query.due || curValues.due, req.query.id || curValues.id], function(err, result){
+            //'SELECT * FROM student'
+            mysql.pool.query("UPDATE student SET name=?, done=?, due=? WHERE id=? ", [req.query.name || curValues.name, req.query.done || curValues.done, req.query.due || curValues.due, req.query.id || curValues.id], function(err, result){
                 if(err){
                     next(err);
                     return;
@@ -112,7 +118,7 @@ app.get("/safe-update", function(req, res, next){
 //This is just for learning purposes.
 app.get("/reset-table", function(req,res, next){
     var context = {};
-    mysql.pool.query("DROP TABLE IF EXISTS todo",  function(err){
+    mysql.pool.query("DROP TABLE IF EXISTS student",  function(err){
 /*        var createString = "CREATE TABLE workouts(" +
             "id INT PRIMARY KEY AUTO_INCREMENT," +
             "name VARCHAR(255) NOT NULL," +
@@ -120,7 +126,7 @@ app.get("/reset-table", function(req,res, next){
             "weight INT," +
             "date DATE,"+
             "lbs BOOLEAN)";*/
-        var createString = "CREATE TABLE todo(" +
+        var createString = "CREATE TABLE student(" +
             "id INT PRIMARY KEY AUTO_INCREMENT," +
             "name VARCHAR(255) NOT NULL," +
             "done BOOLEAN," +

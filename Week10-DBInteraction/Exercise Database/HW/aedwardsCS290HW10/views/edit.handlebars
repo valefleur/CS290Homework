@@ -1,0 +1,32 @@
+<h1 id="edit">EDIT PAGE</h1>
+
+<fieldset>
+	<form id="entryForm" action ="/" method="post">
+	    <br />
+		<label>Excersice<input type="text" name="text_input" size="45" maxlength="100" value="{{editExcersice}}"></label>
+	    <br />
+		<label>Number of reps<input type="text" name="text_input" size="45" maxlength="100" value="{{editReps}}"></label>
+	    <br />
+		<label>weight<input type="text" name="text_input" size="45" maxlength="100" value="{{editWeight}}"></label>
+	    <br />
+		<label>date<input type="text" name="text_input" size="45" maxlength="100" value="{{editDate}}"></label>
+	    <br />
+	    <label>Units</label>
+	    <label><input type="radio" name="units" value="true" />Lbs</label>
+	    <label><input type="radio" name="units" value="false"/>Kgs</label>
+	    <br />
+	    <br />
+	  	<label><input type="submit" name="edit"/></label>
+	</form>
+</fieldset>
+
+
+<h2 id="resuts">
+	<!--Here the database will be parsed into rows-->
+
+<!--<ul>
+  {{#each dataList}}
+    <li>{{this.name}}: {{this.value}}
+  {{/each}}
+</ul>-->
+</h2>
